@@ -9,20 +9,14 @@
 
 int main() {
 
-    Image<Channel::RGB> image;
+    Image<Channel::GRAY> image;
     ImageProcessor processor;
 
-    processor.load(image, "images/buck.ppm");
+    processor.load(image, "images/mona_lisa.pgm");
 
     processor.applyKernel(image, blur5x5);
 
-    // Salvataggio dell'immagine risultante
-    if (!processor.saveAs(image, "../images/output")) {
-        std::cerr << "Errore durante il salvataggio dell'immagine" << std::endl;
-        return 1;
-    }
-
-    std::cout << "Immagine salvata correttamente" << std::endl;
+    processor.saveAs(image, "../images/output");
 
     return 0;
 }
