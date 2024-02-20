@@ -12,11 +12,11 @@ int main() {
     Image<Channel::GRAY> image;
     ImageProcessor processor;
 
-    processor.load(image, "images/mona_lisa.pgm");
+    processor.load(image, "images/dragon.pgm");
 
     processor.applyKernel(image, blur5x5);
 
-    processor.saveAs(image, "../images/output");
+    processor.saveAs(image, "images/draon_blur");
 
     return 0;
 }

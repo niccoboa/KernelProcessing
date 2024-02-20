@@ -48,6 +48,9 @@ bool ImageProcessor::load(ImageBase& image, const std::string &filename) {
     }
 }
 
+bool ImageProcessor::save(ImageBase& image) {
+    return saveAs(image, "output");
+}
 
 bool ImageProcessor::saveAs(ImageBase& image, const std::string &filename) {
     if (image.getChannels() == Channel::GRAY) {
