@@ -55,6 +55,12 @@ build CMakeFiles/KernelProcessing.dir/main.cpp.obj: CXX_COMPILER__KernelProcessi
   OBJECT_DIR = CMakeFiles\KernelProcessing.dir
   OBJECT_FILE_DIR = CMakeFiles\KernelProcessing.dir
 
+build CMakeFiles/KernelProcessing.dir/ImageProcessor.cpp.obj: CXX_COMPILER__KernelProcessing_unscanned_Debug C$:/Users/niccoboa/CLionProjects/KernelProcessing/ImageProcessor.cpp || cmake_object_order_depends_target_KernelProcessing
+  DEP_FILE = CMakeFiles\KernelProcessing.dir\ImageProcessor.cpp.obj.d
+  FLAGS = -g -std=gnu++11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\KernelProcessing.dir
+  OBJECT_FILE_DIR = CMakeFiles\KernelProcessing.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target KernelProcessing
@@ -63,7 +69,7 @@ build CMakeFiles/KernelProcessing.dir/main.cpp.obj: CXX_COMPILER__KernelProcessi
 #############################################
 # Link the executable KernelProcessing.exe
 
-build KernelProcessing.exe: CXX_EXECUTABLE_LINKER__KernelProcessing_Debug CMakeFiles/KernelProcessing.dir/main.cpp.obj
+build KernelProcessing.exe: CXX_EXECUTABLE_LINKER__KernelProcessing_Debug CMakeFiles/KernelProcessing.dir/main.cpp.obj CMakeFiles/KernelProcessing.dir/ImageProcessor.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\KernelProcessing.dir

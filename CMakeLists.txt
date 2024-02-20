@@ -8,4 +8,7 @@ file(COPY images DESTINATION ${CMAKE_BINARY_DIR})
 add_executable(KernelProcessing main.cpp
         Image.h
         Channel.h
-        ImageProcessor.h)
+        ImageProcessor.h
+        ImageBase.h
+        ImageProcessor.cpp
+        Kernels.h)

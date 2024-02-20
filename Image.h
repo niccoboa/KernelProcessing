@@ -9,61 +9,42 @@
 #include <iostream>
 #include <fstream>
 #include "Channel.h"
-
+#include "ImageBase.h"
 
 template<Channel C>
-class Image {
+class Image : public ImageBase {
 private:
     int height;
     int width;
     std::vector<std::vector<int>> data;
 
 public:
-    Image(int w, int h);
+    Image(int w, int h) : width(w), height(h), data(h, std::vector<int>(w * static_cast<int>(C))) {}
     Image() : width(0), height(0) {}
 
-    int getWidth() const;
-    int getHeight() const;
+    int getWidth() const override { return width; }
+    int getHeight() const override { return height; }
 
-    int getPixel(int x, int y, int c) const;
-    void setPixel(int x, int y, int c, int value);
+    void setWidth(int w) override { width = w; }
+    void setHeight(int h) override { height = h; }
 
-    // getData
-    std::vector<std::vector<int>>& getData();
+    int getPixel(int x, int y, int c) const override {
+        return data[y][x * static_cast<int>(C) + c];
+    }
 
-    // Operatore per accedere ai pixel (versione const)
-    const int& operator()(int x, int y) const;
+    void setPixel(int x, int y, int c, int value) override {
+        data[y][x * static_cast<int>(C) + c] = value;
+    };
+
+    const std::vector<std::vector<int>>& getData() const { return data; }
+
+    const int& operator()(int x, int y) const override {
+        return data[y][x * static_cast<int>(C)];
+    }
+
+    virtual Channel getChannels() const override { return C; }
+
+    void setData(const std::vector<std::vector<int>>& newData) override { data = newData; }
 };
-
-
-template<Channel C> Image<C>::Image(int w, int h) : width(w), height(h), data(h, std::vector<int>(w * static_cast<int>(C))) {}
-
-//template<Channel C>
-//Image<C>::Image() : Image(0, 0) {}
-
-template<Channel C> int Image<C>::getWidth() const {
-    return width;
-}
-
-template<Channel C> int Image<C>::getHeight() const {
-    return height;
-}
-
-template<Channel C> int Image<C>::getPixel(int x, int y, int c) const {
-    return data[y][x * static_cast<int>(C) + c];
-}
-
-template<Channel C> void Image<C>::setPixel(int x, int y, int c, int value) {
-    data[y][x * static_cast<int>(C) + c] = value;
-}
-
-template<Channel C> std::vector<std::vector<int>>& Image<C>::getData() {
-    return data;
-}
-
-template<Channel C> const int& Image<C>::operator()(int x, int y) const {
-    //return data[y][x];
-    return data[y][x * static_cast<int>(C)];
-}
 
 #endif //KERNELPROCESSING_IMAGE_H
