@@ -135,13 +135,16 @@ void ImageProcessor::applyKernel(ImageBase& image, const std::vector<std::vector
                         int py = y + ky - kh / 2;
                         if (px >= 0 && px < w && py >= 0 && py < h) { // se il pixel è dentro l'immagine (non gestisco il padding)
                             sum += image.getPixel(px, py, ch) * kernel[ky][kx];
+                        } else {
+                            sum = 0;
+                            break;
                         }
                     }
                 }
-                // Applica la saturazione al valore del pixel risultante
-                result.setPixel(x, y, ch, sum > 255 ? 255 : sum < 0 ? 0 : sum/2);
-                //float normalizedValue = (sum / static_cast<float>(maxPixelValue)) * 255.0f;
-                //result.setPixel(x, y, ch, static_cast<int>(normalizedValue));
+
+                //result.setPixel(x, y, ch, sum);
+                result.setPixel(x, y, ch, sum > 255 ? 255 : sum < 0 ? 0 : sum);
+
             }
         }
     }

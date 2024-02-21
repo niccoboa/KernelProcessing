@@ -20,10 +20,10 @@ add_executable(KernelProcessing main.cpp
 file(GLOB PGM_FILES "${CMAKE_BINARY_DIR}/images/*.pgm")
 file(GLOB PPM_FILES "${CMAKE_BINARY_DIR}/images/*.ppm")
 
-add_custom_command(
-        TARGET KernelProcessing POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${PGM_FILES}
-        ${PPM_FILES}
-        ${PROJECT_SOURCE_DIR}/images/
-)
+#add_custom_command(
+#        TARGET KernelProcessing POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#        ${PGM_FILES}
+#        ${PPM_FILES}
+#        ${PROJECT_SOURCE_DIR}/images/
+#)

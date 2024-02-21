@@ -11,9 +11,9 @@ int main() {
 
     Image<Channel::RGB> image;
 
-    ImageProcessor::load(image, "images/under.ppm");
+    ImageProcessor::load(image, "images/newton.ppm");
     ImageProcessor::applyKernel(image, edgeDetect3x3);
-    ImageProcessor::saveAs(image, "images/under_edge_detect3x3mezzi");
+    ImageProcessor::saveAs(image, "images/newton_edge");
 
     return 0;
 }
