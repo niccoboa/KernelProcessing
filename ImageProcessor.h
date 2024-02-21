@@ -21,7 +21,7 @@ public:
 
     static bool load(ImageBase& image, const std::string& filename); // Carica un'immagine da un file
 
-    static bool save(ImageBase& image); // Salva l'immagine con il nome di default
+    __attribute__((unused)) static bool save(ImageBase& image); // Salva l'immagine con il nome di default
     static bool saveAs(ImageBase& image, const std::string& filename) ; // Salva l'immagine con un nome specifico
     static bool saveImage(ImageBase& image, const std::string& filename, const std::string& magic) ; // Salva l'immagine in formato PPM
 

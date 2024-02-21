@@ -16,10 +16,10 @@ class Image : public ImageBase {
 private:
     int height;
     int width;
-    std::vector<std::vector<int>> data;
+    std::vector<std::vector<unsigned char>> data;
 
 public:
-    Image(int w, int h) : width(w), height(h), data(h, std::vector<int>(w * static_cast<int>(C))) {}
+    // Image(int w, int h) : width(w), height(h), data(h, std::vector<unsigned char>(w * static_cast<int>(C))) {}
     Image() : width(0), height(0) {}
 
     int getWidth() const override { return width; }
@@ -36,15 +36,15 @@ public:
         data[y][x * static_cast<int>(C) + c] = value;
     };
 
-    const std::vector<std::vector<int>>& getData() const { return data; }
+    // const std::vector<std::vector<unsigned char>>& getData() const { return data; }
 
-    const int& operator()(int x, int y) const override {
+    int operator()(int x, int y) const override {
         return data[y][x * static_cast<int>(C)];
     }
 
-    virtual Channel getChannels() const override { return C; }
+    Channel getChannels() const override { return C; }
 
-    void setData(const std::vector<std::vector<int>>& newData) override { data = newData; }
+    void setData(const std::vector<std::vector<unsigned char>>& newData) override { data = newData; }
 };
 
 #endif //KERNELPROCESSING_IMAGE_H

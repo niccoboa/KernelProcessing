@@ -10,13 +10,10 @@
 int main() {
 
     Image<Channel::GRAY> image;
-    ImageProcessor processor;
 
-    processor.load(image, "images/dragon.pgm");
-
-    processor.applyKernel(image, blur5x5);
-
-    processor.saveAs(image, "images/draon_blur");
+    ImageProcessor::load(image, "images/monaLisa.pgm");
+    ImageProcessor::applyKernel(image, sharpen3x3);
+    ImageProcessor::saveAs(image, "images/monaLisa_sharpened");
 
     return 0;
 }

@@ -27,6 +27,26 @@ const std::vector<std::vector<float>> edgeDetect3x3 = {
         {-1, 0, 1}
 };
 
+// sharpen kernel
+const std::vector<std::vector<float>> sharpen3x3 = {
+        {0, -1, 0},
+        {-1, 5, -1},
+        {0, -1, 0}
+};
+
+// evidenziazione dei bordi
+const std::vector<std::vector<float>> edgeEnhance3x3 = {
+        {0, -1, 0},
+        {-1, 4, -1},
+        {0, -1, 0}
+};
+
+// individuazione dei bordi 3x3 con -4 in mezzo
+const std::vector<std::vector<float>> edgeDetect3x3_2 = {
+        {0, 1, 0},
+        {1, -4, 1},
+        {0, 1, 0}
+};
 
 
 #endif //KERNELPROCESSING_KERNELS_H
