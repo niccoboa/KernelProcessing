@@ -9,11 +9,11 @@
 
 int main() {
 
-    Image<Channel::GRAY> image;
+    Image<Channel::RGB> image;
 
-    ImageProcessor::load(image, "images/monaLisa.pgm");
-    ImageProcessor::applyKernel(image, sharpen3x3);
-    ImageProcessor::saveAs(image, "images/monaLisa_sharpened");
+    ImageProcessor::load(image, "images/under.ppm");
+    ImageProcessor::applyKernel(image, edgeDetect3x3);
+    ImageProcessor::saveAs(image, "images/under_edge_detect3x3mezzi");
 
     return 0;
 }

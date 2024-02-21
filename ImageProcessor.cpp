@@ -40,10 +40,13 @@ bool ImageProcessor::load(ImageBase& image, const std::string &filename) {
             }
         } else if (magicNumber == "P5" || magicNumber == "P6") { // se è P5 o P6, leggo i dati come byte
             for (int y = 0; y < height; ++y) {
-                for (int x = 0; x < width * static_cast<int>(c); ++x) {
-                    unsigned char value;
-                    inputFile.read(reinterpret_cast<char*>(&value), 1);
-                    pixelData[y][x] = value;
+                for (int x = 0; x < width; ++x) {
+                    for (int ch = 0; ch < static_cast<int>(c); ++ch) {
+                        unsigned char value;
+                        inputFile.read(reinterpret_cast<char*>(&value), 1);
+                        int channelIndex = (ch + 2) % 3; // Inverte l'ordine dei canali: BGR <-> RGB
+                        pixelData[y][x * static_cast<int>(c) + channelIndex] = value;
+                    }
                 }
             }
         } else {
@@ -113,6 +116,7 @@ bool ImageProcessor::saveImage(ImageBase &image, const std::string &filename, co
 void ImageProcessor::applyKernel(ImageBase& image, const std::vector<std::vector<float>>& kernel) {
     int kw = static_cast<int>(kernel[0].size()); // kernel width
     int kh = static_cast<int>(kernel.size());    // kernel height
+
     int w = image.getWidth();
     int h = image.getHeight();
     int c = static_cast<int>(image.getChannels());
@@ -120,19 +124,6 @@ void ImageProcessor::applyKernel(ImageBase& image, const std::vector<std::vector
     ImageBase& result = image; // Clona l'immagine originale per mantenere l'originale invariato
 
     auto start_time = std::chrono::steady_clock::now(); // Misura il tempo di inizio
-
-    int maxPixelValue = 0;
-    for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++) {
-            for (int ch = 0; ch < c; ch++) {
-                int pixelValue = image.getPixel(x, y, ch);
-                if (pixelValue > maxPixelValue) {
-                    maxPixelValue = pixelValue;
-                }
-            }
-        }
-    }
-    std::cout << "Max pixel value: " << maxPixelValue << std::endl;
 
     for (int y = 0; y < h; y++) { // per ogni pixel
         for (int x = 0; x < w; x++) {
@@ -148,7 +139,7 @@ void ImageProcessor::applyKernel(ImageBase& image, const std::vector<std::vector
                     }
                 }
                 // Applica la saturazione al valore del pixel risultante
-                result.setPixel(x, y, ch, sum > 255 ? 255 : sum < 0 ? 0 : sum);
+                result.setPixel(x, y, ch, sum > 255 ? 255 : sum < 0 ? 0 : sum/2);
                 //float normalizedValue = (sum / static_cast<float>(maxPixelValue)) * 255.0f;
                 //result.setPixel(x, y, ch, static_cast<int>(normalizedValue));
             }
@@ -160,6 +151,6 @@ void ImageProcessor::applyKernel(ImageBase& image, const std::vector<std::vector
 
     image = result; // sostituisce l'immagine originale con il risultato
 
-    std::cout << "Kernel applicato correttamente in " << duration.count() << " millisecondi" << std::endl;
+    std::cout << "Kernel (" << kw << "x" << kh << ") applicato correttamente in " << duration.count() << " millisecondi" << std::endl;
 }
 
