@@ -21,7 +21,6 @@ const std::vector<std::vector<float>> blur5x5 = {
         {1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25}
 };
 
-
 const std::vector<std::vector<float>> edgeDetect3x3 = {
         {0.75, 0, -0.75},
         {0,    0,     0},

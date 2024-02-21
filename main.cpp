@@ -1,8 +1,4 @@
-#include <iostream>
-#include <vector>
-
 #include "Channel.h"
-// #include "ImageBase.h"
 #include "Image.h"
 #include "ImageProcessor.h"
 #include "Kernels.h"
