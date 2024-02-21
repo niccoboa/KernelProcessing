@@ -1,9 +1,0 @@
-# ninja log v5
-7	798	7302603575195349	CMakeFiles/KernelProcessing.dir/main.cpp.obj	53f0dd01e1cf7609
-5	821	7302602273588349	CMakeFiles/KernelProcessing.dir/ImageProcessor.cpp.obj	a5ec45c6de25a41e
-6	264	7302603841808480	KernelProcessing.exe	feda137592fb49fa
-2	325	7302604041908027	build.ninja	7b4ea179d8919d9f
-14	113	7300788854798624	CMakeFiles/KernelProcessing.dir/Channel.cpp.obj	358e132f53f014c7
-16	780	7300804497837259	CMakeFiles/KernelProcessing.dir/Image.cpp.obj	885a6f1c74ade232
-6	848	7302604079505994	CMakeFiles/KernelProcessing.dir/main.cpp.obj	53f0dd01e1cf7609
-849	1027	7302604081239063	KernelProcessing.exe	26a2692ab4da9874
