@@ -1,7 +1,3 @@
-//
-// Created by niccoboa on 19/02/2024.
-//
-
 #ifndef KERNELPROCESSING_IMAGE_H
 #define KERNELPROCESSING_IMAGE_H
 
@@ -23,16 +19,18 @@ public:
     Image() : width(0), height(0) {}
 
     int getWidth() const override { return width; }
+
     int getHeight() const override { return height; }
 
     void setWidth(int w) override { width = w; }
+
     void setHeight(int h) override { height = h; }
 
-    int getPixel(int x, int y, int c) const override {
+    float getPixel(int x, int y, int c) const override {
         return data[y][x * static_cast<int>(C) + c];
     }
 
-    void setPixel(int x, int y, int c, int value) override {
+    void setPixel(int x, int y, int c, float value) override {
         data[y][x * static_cast<int>(C) + c] = value;
     };
 
@@ -44,7 +42,17 @@ public:
 
     Channel getChannels() const override { return C; }
 
-    void setData(const std::vector<std::vector<unsigned char>>& newData) override { data = newData; }
+    void setData(const std::vector<std::vector<unsigned char>> &newData) override { data = newData; }
+
+
+    /*ImageBase* clone() const override {
+        Image<C> newImage;
+        newImage.setWidth(width);
+        newImage.setHeight(height);
+        newImage.setData(data);
+        return newImage;
+    }*/
+
 };
 
 #endif //KERNELPROCESSING_IMAGE_H

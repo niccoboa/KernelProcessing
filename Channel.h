@@ -1,7 +1,3 @@
-//
-// Created by niccoboa on 19/02/2024.
-//
-
 #ifndef KERNELPROCESSING_CHANNEL_H
 #define KERNELPROCESSING_CHANNEL_H
 
