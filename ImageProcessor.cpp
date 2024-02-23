@@ -38,11 +38,11 @@ bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
         } else if (magicNumber == "P5" || magicNumber == "P6") { // se è P5 o P6, leggo i dati come byte
             for (int y = 0; y < height; ++y) {
                 for (int x = 0; x < width; ++x) {
-                    for (int ch = 0; ch < static_cast<int>(c); ++ch) {
+                    for (int ch = 1; ch <= static_cast<int>(c); ch++) {
                         unsigned char value;
                         inputFile.read(reinterpret_cast<char *>(&value), 1);
-                        int channelIndex = (ch + 2) % 3; // Inverte l'ordine dei canali: BGR <-> RGB
-                        pixelData[y][x * static_cast<int>(c) + channelIndex] = value;
+                        // int channelIndex = (ch + 2) % 3; // Inverte l'ordine dei canali: BGR <-> RGB
+                        pixelData[y][x * static_cast<int>(c) + ch + 1] = value;
                     }
                 }
             }
@@ -134,14 +134,13 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
 
     for (int y = 0; y < h; y++) { // per ogni pixel
         for (int x = 0; x < w; x++) {
-            for (int ch = 1; ch <= c; ch++) { // per ogni canale
+            for (int ch = 0; ch < c; ch++) { // per ogni canale
                 float sum = 0;
                 for (int ky = 0; ky < kh; ky++) { // per ogni elemento del kernel
                     for (int kx = 0; kx < kw; kx++) {
                         int px = x + kx - kw / 2;
                         int py = y + ky - kh / 2;
-                        if (px >= 0 && px < w && py >= 0 &&
-                            py < h) { // se il pixel è dentro l'immagine (non gestisco il padding)
+                        if (px >= 0 && px < w && py >= 0 && py < h) { // se il pixel è dentro l'immagine (non gestisco il padding)
                             sum += image.getPixel(px, py, ch) * kernel[ky][kx];
                         }
                     }

@@ -31,7 +31,7 @@ public:
     }
 
     void setPixel(int x, int y, int c, float value) override {
-        data[y][x * static_cast<int>(C) + c] = value;
+        data[y][x * static_cast<int>(C) + c] = static_cast<unsigned char>(value);
     };
 
     // const std::vector<std::vector<unsigned char>>& getData() const { return data; }
