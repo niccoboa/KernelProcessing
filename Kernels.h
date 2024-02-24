@@ -28,7 +28,7 @@ const std::vector<std::vector<std::vector<float>>> edgeDetect3x3 = {
                 {-0.75, 0, 0.75},
                 {0, 0,  0},
                 {0.75, 0, -0.75}
-        }, // edgedetection 3x3
+        },
         {
                 {0, 1, 0},
                 {1, -4, 1},
@@ -41,21 +41,18 @@ const std::vector<std::vector<std::vector<float>>> edgeDetect3x3 = {
         }
 };
 
-
-const std::vector<std::vector<float>> sharpen3x3 = {
-        {0, -0.8, 0},
-        {-0.8,  3.2, -0.8},
-        {0, -0.8, 0}
+const std::vector<std::vector<std::vector<float>>> sharpen = {
+        {
+                {0, -0.8, 0},
+                {-0.8, 3.2, -0.8},
+                {0, -0.8, 0}
+        },
+        {
+                {0, -1, 0},
+                {-1, 5, -1},
+                {0, -1, 0}
+        }
 };
-
-//sharpness 3x3
-const std::vector<std::vector<float>> sharpness3x3 = {
-        {0, -1, 0},
-        {-1, 5, -1},
-        {0, -1, 0}
-};
-
-
 
 
 #endif //KERNELPROCESSING_KERNELS_H

@@ -9,11 +9,11 @@
 
 bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
 
-    auto start_time = std::chrono::steady_clock::now(); // Misura il tempo di inizio
+    auto start_time = std::chrono::steady_clock::now(); // loading start time
     try {
         std::ifstream inputFile(filename, std::ios::binary);
         if (!inputFile) {
-            throw std::runtime_error("Impossibile aprire il file " + filename);
+            throw std::runtime_error("Unable to open the file " + filename);
         }
 
         Channel c = image.getChannels();
@@ -21,12 +21,12 @@ bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
         int width, height, maxValue;
         inputFile >> magicNumber >> width >> height >> maxValue;
         if (magicNumber != "P2" && magicNumber != "P3" && magicNumber != "P5" && magicNumber != "P6") {
-            throw std::runtime_error("Il file non è in formato PGM o PPM");
+            throw std::runtime_error("File format not supported");
         }
 
         std::vector<std::vector<unsigned char>> pixelData(height,
                                                           std::vector<unsigned char>(width * static_cast<int>(c)));
-        if (magicNumber == "P2" || magicNumber == "P3") { // se è P2 o P3, leggo i dati come interi
+        if (magicNumber == "P2" || magicNumber == "P3") { // if P2 o P3, read data as int
             for (int y = 0; y < height; ++y) {
                 for (int x = 0; x < width * static_cast<int>(c); ++x) {
                     //inputFile >> pixelData[y][x];
@@ -35,19 +35,19 @@ bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
                     pixelData[y][x] = static_cast<unsigned char>(pixelValue);
                 }
             }
-        } else if (magicNumber == "P5" || magicNumber == "P6") { // se è P5 o P6, leggo i dati come byte
+        } else if (magicNumber == "P5" || magicNumber == "P6") { // if P5 o P6, read data as byte
             for (int y = 0; y < height; ++y) {
                 for (int x = 0; x < width; ++x) {
                     for (int ch = 1; ch <= static_cast<int>(c); ch++) {
                         unsigned char value;
                         inputFile.read(reinterpret_cast<char *>(&value), 1);
-                        // int channelIndex = (ch + 2) % 3; // Inverte l'ordine dei canali: BGR <-> RGB
-                        pixelData[y][x * static_cast<int>(c) + ch + 1] = value;
+                        // int channelIndex = (ch + 2) % 3; // Inverts channels order: BGR <-> RGB
+                        pixelData[y][x * static_cast<int>(c) + ch + 1] = value; // new version
                     }
                 }
             }
         } else {
-            throw std::runtime_error("Errore durante la lettura del file");
+            throw std::runtime_error("Error while reading the file");
         }
 
         image.setWidth(width);
@@ -58,14 +58,14 @@ bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
         auto end_time = std::chrono::steady_clock::now(); // Misura il tempo di fine
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                 end_time - start_time); // Calcola la durata
-        std::cout << "1) File " << filename << " aperto e letto correttamente in " << duration.count()
-                  << " millisecondi";
-        std::cout << " (dimensioni: " << width << "x" << height << ", numero canali: " << static_cast<int>(c) << ")"
+        std::cout << "1) File " << filename << " loaded in " << duration.count()
+                  << " ms";
+        std::cout << " (dimensions: " << width << "x" << height << ", channels used: " << static_cast<int>(c) << ")"
                   << std::endl;
         return true;
 
     } catch (const std::exception &e) {
-        std::cerr << "Errore durante il caricamento dell'immagine: " << e.what() << std::endl;
+        std::cerr << "Error while loading the image: " << e.what() << std::endl;
         return false;
     }
 }
@@ -80,7 +80,7 @@ bool ImageProcessor::saveAs(ImageBase &image, const std::string &filename) {
     } else if (image.getChannels() == Channel::RGB || image.getChannels() == Channel::RGBA) {
         return saveImage(image, "../" + filename + ".ppm", "P3");
     } else { //if (C == Channel::DUAL) {
-        std::cerr << "Canale non supportato" << std::endl;
+        std::cerr << "Not supported channel type" << std::endl;
         return false;
     }
 }
@@ -90,7 +90,7 @@ bool ImageProcessor::saveImage(ImageBase &image, const std::string &filename, co
     try {
         std::ofstream file(filename);
         if (!file) {
-            throw std::runtime_error("Impossibile aprire il file " + filename);
+            throw std::runtime_error("Unable to open the file " + filename);
         }
 
         file << magic << std::endl;
@@ -108,39 +108,40 @@ bool ImageProcessor::saveImage(ImageBase &image, const std::string &filename, co
 
         file.close();
     } catch (const std::exception &e) {
-        std::cerr << "Errore durante il salvataggio dell'immagine: " << e.what() << std::endl;
+        std::cerr << "Error while saving the image: " << e.what() << std::endl;
         return false;
     }
 
-    std::cout << "3) Immagine salvata correttamente in " << filename << std::endl;
+    std::cout << "3) Image saved in " << filename << std::endl;
     return true;
 }
-
-#include <iostream>
-#include <chrono> // per misurare il tempo di esecuzione
 
 void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector<float>> &kernel) {
     int kw = static_cast<int>(kernel[0].size()); // kernel width
     int kh = static_cast<int>(kernel.size());    // kernel height
+    int kwRadius = kw / 2; // kernel width radius
+    int khRadius = kh / 2; // kernel height radius
 
-    int w = image.getWidth();
-    int h = image.getHeight();
-    int c = static_cast<int>(image.getChannels());
-    int count = 0;
+    int w = image.getWidth(); // image width
+    int h = image.getHeight(); // image height
+    int c = static_cast<int>(image.getChannels()); // number of channels
+    int count = 0; // counter for saturation
 
-    ImageBase &result = image; // Clona l'immagine originale per mantenere l'originale invariato
+    ImageBase &result = image; // clone image (TODO: beautify it)
 
-    auto start_time = std::chrono::steady_clock::now(); // Misura il tempo di inizio
+    auto start_time = std::chrono::steady_clock::now(); // kernel application start time
 
-    for (int y = 0; y < h; y++) { // per ogni pixel
+    int px, py; // pixel coordinates
+
+    for (int y = 0; y < h; y++) { // for each pixel
         for (int x = 0; x < w; x++) {
-            for (int ch = 0; ch < c; ch++) { // per ogni canale
+            for (int ch = 0; ch < c; ch++) { // for each channel
                 float sum = 0;
-                for (int ky = 0; ky < kh; ky++) { // per ogni elemento del kernel
+                for (int ky = 0; ky < kh; ky++) { // for each kernel element
                     for (int kx = 0; kx < kw; kx++) {
-                        int px = x + kx - kw / 2;
-                        int py = y + ky - kh / 2;
-                        if (px >= 0 && px < w && py >= 0 && py < h) { // se il pixel è dentro l'immagine (non gestisco il padding)
+                        px = x + kx - kwRadius;
+                        py = y + ky - khRadius;
+                        if (px >= 0 && px < w && py >= 0 && py < h) { // if the pixel is inside the image
                             sum += image.getPixel(px, py, ch) * kernel[ky][kx];
                         }
                     }
@@ -151,14 +152,13 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
         }
     }
 
-    auto end_time = std::chrono::steady_clock::now(); // Misura il tempo di fine
+    auto end_time = std::chrono::steady_clock::now(); // kernel application end time
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time); // Calcola la durata
 
-    image = result; // sostituisce l'immagine originale con il risultato
+    image = result; // apply the result to the original image
 
 
-    std::cout << "2) Kernel (" << kw << "x" << kh << ") applicato correttamente in " << duration.count()
-              << " millisecondi" << std::endl;
-    std::cout << "   Nota: superata la soglia di saturazione per: " << count << " volte" << std::endl;
+    std::cout << "2) Kernel (" << kw << "x" << kh << ") applied in " << duration.count()
+              << "ms" << std::endl;
+    std::cout << "   Note: exceeded the saturation threshold " << count << " times" << std::endl;
 }
-
