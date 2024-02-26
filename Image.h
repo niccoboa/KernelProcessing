@@ -44,14 +44,17 @@ public:
 
     void setData(const std::vector<std::vector<unsigned char>> &newData) override { data = newData; }
 
+    const std::vector<std::vector<unsigned char>>& getData() const override {
+        return data;
+    }
 
-    /*ImageBase* clone() const override {
-        Image<C> newImage;
-        newImage.setWidth(width);
-        newImage.setHeight(height);
-        newImage.setData(data);
+    ImageBase* clone() const override {
+        auto* newImage = new Image<C>();  // Image<C> *newImage = new Image<C>();
+        newImage->setWidth(width);
+        newImage->setHeight(height);
+        newImage->setData(data);
         return newImage;
-    }*/
+    }
 
 };
 

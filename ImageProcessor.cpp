@@ -126,15 +126,16 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
     int h = image.getHeight(); // image height
     int c = static_cast<int>(image.getChannels()); // number of channels
     int count = 0; // counter for saturation
+    int zeros = 0; // counter for zeros
 
-    ImageBase &result = image; // clone image (TODO: beautify it)
+    ImageBase *result = image.clone(); // clone image
 
     auto start_time = std::chrono::steady_clock::now(); // kernel application start time
 
     int px, py; // pixel coordinates
 
-    for (int y = 0; y < h; y++) { // for each pixel
-        for (int x = 0; x < w; x++) {
+    for (int y = 5; y < h-5; y++) { // for each pixel
+        for (int x = 5; x < w-5; x++) {
             for (int ch = 0; ch < c; ch++) { // for each channel
                 float sum = 0;
                 for (int ky = 0; ky < kh; ky++) { // for each kernel element
@@ -142,12 +143,13 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
                         px = x + kx - kwRadius;
                         py = y + ky - khRadius;
                         if (px >= 0 && px < w && py >= 0 && py < h) { // if the pixel is inside the image
-                            sum += image.getPixel(px, py, ch) * kernel[ky][kx];
+                            sum += (image.getPixel(px, py, ch) * kernel[ky][kx]);
                         }
                     }
                 }
                 if (sum > 255) count++;
-                result.setPixel(x, y, ch, sum > 255 ? 255 : sum < 0 ? 0 : sum);
+                if (sum <= 0) zeros++;
+                result->setPixel(x, y, ch, sum > 255 ? 255 : sum < 0 ? 0 : sum);
             }
         }
     }
@@ -155,10 +157,12 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
     auto end_time = std::chrono::steady_clock::now(); // kernel application end time
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time); // kernel application length
 
-    image = result; // apply the result to the original image
+    image.setData(result->getData()); // apply the result to the original image
 
+    delete result; // delete the clone
 
     std::cout << "2) Kernel (" << kw << "x" << kh << ") applied in " << duration.count()
               << "ms" << std::endl;
-    std::cout << "   Note: exceeded the saturation threshold " << count << " times" << std::endl;
+    std::cout << "   Note: exceeded the saturation threshold   " << count << " times" << std::endl;
+    std::cout << "   Note: under the saturation zero threshold " << zeros << " times" << std::endl;
 }

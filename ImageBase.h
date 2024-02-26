@@ -13,12 +13,14 @@ public:
     virtual void setPixel(int x, int y, int c, float value) = 0;
     // virtual const std::vector<std::vector<unsigned char>> & getData() const = 0;
     virtual void setData(const std::vector<std::vector<unsigned char>>& newData) = 0;
+    virtual const std::vector<std::vector<unsigned char>>& getData() const = 0;
+
     virtual int operator()(int x, int y) const = 0;
 
     virtual Channel getChannels() const = 0;
     virtual ~ImageBase() = default;
 
-    // virtual ImageBase* clone() const = 0;
+    virtual ImageBase* clone() const = 0;
 
 };
 
