@@ -1,6 +1,6 @@
 # Kernel Image Processing
 
-Goals:
+**Assignments**:
 - Template class that represents images with 1, 2, 3 and 4 channels;
 - Class that implements kernel image processing;
 - Reading and writing in PPM/PGM format.
@@ -19,9 +19,8 @@ Additional references:
 ---
 
 ## TODO:
-- Unit testing
+- **Unit testing**
 - Add more image processing operations (e.g. edge detection, sharpening, etc.)
-- Exception handling
 - New structure for Kernels.h
 - A small GUI?
 - Skip comments in PPM/PGM files when reading

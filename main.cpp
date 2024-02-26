@@ -1,19 +1,18 @@
 #include "ImageProcessor.h"
-#include "Kernels.h"
+#include "Kernel.h"
 
 int main() {
 
-    // 1) Set Channels
     Image<Channel::GRAY> image;
 
-    // 2) Load Image
-    ImageProcessor::load(image, "images/lennanew.pgm");
+    try {
+        ImageProcessor::load(image, "monaLisa.pgm");
+        ImageProcessor::applyKernel(image, edgeDetect[1]);
+        ImageProcessor::saveAs(image, "monaLisa_edge");
 
-    // 3) Apply kernel
-    ImageProcessor::applyKernel(image, sharpen[1]);
-
-    // 4) Save Image
-    ImageProcessor::saveAs(image, "images/lena_sharpened");
+    } catch (const std::exception &e) {
+        std::cerr << "An error occurred. "<< std::endl;
+    }
 
     return 0;
 }

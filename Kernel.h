@@ -1,5 +1,5 @@
-#ifndef KERNELPROCESSING_KERNELS_H
-#define KERNELPROCESSING_KERNELS_H
+#ifndef KERNELPROCESSING_KERNEL_H
+#define KERNELPROCESSING_KERNEL_H
 
 #include <vector>
 
@@ -43,4 +43,6 @@ const std::vector<std::vector<std::vector<float>>> sharpen = {
                 {0, -1,   0}
         }
 };
-#endif //KERNELPROCESSING_KERNELS_H
+
+
+#endif //KERNELPROCESSING_KERNEL_H

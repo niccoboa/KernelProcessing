@@ -7,13 +7,15 @@
 #include <chrono>
 
 
-bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
+void ImageProcessor::load(ImageBase &image, const std::string &filename) {
+    std::string root = "../media/input/";
+    std::string filepath = root + filename;
 
     auto start_time = std::chrono::steady_clock::now(); // loading start time
     try {
-        std::ifstream inputFile(filename, std::ios::binary);
+        std::ifstream inputFile(filepath, std::ios::binary);
         if (!inputFile) {
-            throw std::runtime_error("Unable to open the file " + filename);
+            throw std::runtime_error("Unable to open the file " + filepath);
         }
 
         Channel c = image.getChannels();
@@ -63,30 +65,28 @@ bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
                   << " ms";
         std::cout << " (dimensions: " << width << "x" << height << ", channels used: " << static_cast<int>(c) << ")"
                   << std::endl;
-        return true;
 
     } catch (const std::exception &e) {
         std::cerr << "Error while loading the image: " << e.what() << std::endl;
-        return false;
+        throw;
     }
 }
 
-__attribute__((unused)) bool ImageProcessor::save(ImageBase &image) {
-    return saveAs(image, "output");
-}
+void ImageProcessor::saveAs(ImageBase &image, const std::string &filename) {
+    std::string root = "../media/output/";
+    std::string filepath = root + filename;
 
-bool ImageProcessor::saveAs(ImageBase &image, const std::string &filename) {
     if (image.getChannels() == Channel::GRAY) {
-        return saveImage(image, "../" + filename + ".pgm", "P2");
+        return saveImage(image, filepath + ".pgm", "P2");
     } else if (image.getChannels() == Channel::RGB || image.getChannels() == Channel::RGBA) {
-        return saveImage(image, "../" + filename + ".ppm", "P3");
+        return saveImage(image, filepath + ".ppm", "P3");
     } else { //if (C == Channel::DUAL) {
         std::cerr << "Not supported channel type" << std::endl;
-        return false;
+        throw;
     }
 }
 
-bool ImageProcessor::saveImage(ImageBase &image, const std::string &filename, const std::string &magic) {
+void ImageProcessor::saveImage(ImageBase &image, const std::string &filename, const std::string &magic) {
 
     try {
         std::ofstream file(filename);
@@ -110,11 +110,10 @@ bool ImageProcessor::saveImage(ImageBase &image, const std::string &filename, co
         file.close();
     } catch (const std::exception &e) {
         std::cerr << "Error while saving the image: " << e.what() << std::endl;
-        return false;
+        throw;
     }
 
     std::cout << "3) Image saved in " << filename << std::endl;
-    return true;
 }
 
 void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector<float>> &kernel) {
