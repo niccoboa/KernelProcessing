@@ -19,6 +19,7 @@ bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
         Channel c = image.getChannels();
         std::string magicNumber;
         int width, height, maxValue;
+
         inputFile >> magicNumber >> width >> height >> maxValue;
         if (magicNumber != "P2" && magicNumber != "P3" && magicNumber != "P5" && magicNumber != "P6") {
             throw std::runtime_error("File format not supported");
@@ -125,8 +126,9 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
     int w = image.getWidth(); // image width
     int h = image.getHeight(); // image height
     int c = static_cast<int>(image.getChannels()); // number of channels
-    int count = 0; // counter for saturation
-    int zeros = 0; // counter for zeros
+
+    int max_threshold = 0; // counter for saturation (above 255) values
+    int min_threshold = 0; // counter for below zero values
 
     ImageBase *result = image.clone(); // clone image
 
@@ -134,8 +136,8 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
 
     int px, py; // pixel coordinates
 
-    for (int y = 5; y < h-5; y++) { // for each pixel
-        for (int x = 5; x < w-5; x++) {
+    for (int y = 0; y < h; y++) { // for each pixel
+        for (int x = 0; x < w; x++) {
             for (int ch = 0; ch < c; ch++) { // for each channel
                 float sum = 0;
                 for (int ky = 0; ky < kh; ky++) { // for each kernel element
@@ -144,18 +146,30 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
                         py = y + ky - khRadius;
                         if (px >= 0 && px < w && py >= 0 && py < h) { // if the pixel is inside the image
                             sum += (image.getPixel(px, py, ch) * kernel[ky][kx]);
+                        } else { // if the pixel is outside the image set the value to the nearest pixel
+                            sum += (image.getPixel(x, y, ch) * kernel[ky][kx]);
                         }
                     }
                 }
-                if (sum > 255) count++;
-                if (sum <= 0) zeros++;
-                result->setPixel(x, y, ch, sum > 255 ? 255 : sum < 0 ? 0 : sum);
+                // Adjust values to 0-255 if needed
+                if (sum > 255) {
+                    result->setPixel(x, y, ch, 255);
+                    max_threshold++;
+                }
+                else if (sum <= 0) {
+                    result->setPixel(x, y, ch, 0);
+                    min_threshold++;
+                }
+                else { // ok, the value is in the range 0-255
+                    result->setPixel(x, y, ch, static_cast<unsigned char>(sum));
+                }
             }
         }
     }
 
     auto end_time = std::chrono::steady_clock::now(); // kernel application end time
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time); // kernel application length
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time); // kernel application length
 
     image.setData(result->getData()); // apply the result to the original image
 
@@ -163,6 +177,5 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
 
     std::cout << "2) Kernel (" << kw << "x" << kh << ") applied in " << duration.count()
               << "ms" << std::endl;
-    std::cout << "   Note: exceeded the saturation threshold   " << count << " times" << std::endl;
-    std::cout << "   Note: under the saturation zero threshold " << zeros << " times" << std::endl;
+    std::cout << "   Note: exceeded the saturation thresholds for " << max_threshold + min_threshold << " times (<0:" << max_threshold << " ; >255:" << min_threshold << ")" << std::endl;
 }

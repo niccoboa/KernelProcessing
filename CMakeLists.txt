@@ -14,7 +14,8 @@ add_executable(KernelProcessing main.cpp
         Kernels.h
         Channel.h
         ImageProcessor.h
-        ImageProcessor.cpp)
+        ImageProcessor.cpp
+        )
 
 
 file(GLOB PGM_FILES "${CMAKE_BINARY_DIR}/images/*.pgm")

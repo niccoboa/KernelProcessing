@@ -3,11 +3,17 @@
 
 int main() {
 
-    Image<Channel::GRAY> image;                                          // 1) Set channles
+    // 1) Set Channels
+    Image<Channel::GRAY> image;
 
-    ImageProcessor::load(image, "images/lena.pgm");         // 2) Load image
-    ImageProcessor::applyKernel(image, edgeDetect3x3[3]);              //  3) Apply kernel
-    ImageProcessor::saveAs(image, "images/lena_new");      // 4) Save image
+    // 2) Load Image
+    ImageProcessor::load(image, "images/lennanew.pgm");
+
+    // 3) Apply kernel
+    ImageProcessor::applyKernel(image, sharpen[1]);
+
+    // 4) Save Image
+    ImageProcessor::saveAs(image, "images/lena_sharpened");
 
     return 0;
 }
