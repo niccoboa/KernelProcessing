@@ -13,15 +13,14 @@ class ImageProcessor {
 
 public:
 
-    // Metodi per leggere/scrivere immagini e applicare il kernel
+    // Read/Write images and kernel application methods
+    static bool load(ImageBase& image, const std::string& filename); // Load image from file
 
-    static bool load(ImageBase& image, const std::string& filename); // Carica un'immagine da un file
+    __attribute__((unused)) static bool save(ImageBase& image); // Save image with default name
+    static bool saveAs(ImageBase& image, const std::string& filename) ; // Save image with custom name
+    static bool saveImage(ImageBase& image, const std::string& filename, const std::string& magic) ; // Save image with custom name and magic number
 
-    __attribute__((unused)) static bool save(ImageBase& image); // Salva l'immagine con il nome di default
-    static bool saveAs(ImageBase& image, const std::string& filename) ; // Salva l'immagine con un nome specifico
-    static bool saveImage(ImageBase& image, const std::string& filename, const std::string& magic) ; // Salva l'immagine in formato PPM
-
-    static void applyKernel(ImageBase& image, const std::vector<std::vector<float>>& kernel); // Applica un kernel all'immagine
+    static void applyKernel(ImageBase& image, const std::vector<std::vector<float>>& kernel); // Apply kernel to image
 };
 
 

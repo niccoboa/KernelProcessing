@@ -55,9 +55,9 @@ bool ImageProcessor::load(ImageBase &image, const std::string &filename) {
         image.setData(pixelData);
         inputFile.close();
 
-        auto end_time = std::chrono::steady_clock::now(); // Misura il tempo di fine
+        auto end_time = std::chrono::steady_clock::now(); // loading end time
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                end_time - start_time); // Calcola la durata
+                end_time - start_time); // loading length
         std::cout << "1) File " << filename << " loaded in " << duration.count()
                   << " ms";
         std::cout << " (dimensions: " << width << "x" << height << ", channels used: " << static_cast<int>(c) << ")"
@@ -153,7 +153,7 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
     }
 
     auto end_time = std::chrono::steady_clock::now(); // kernel application end time
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time); // Calcola la durata
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time); // kernel application length
 
     image = result; // apply the result to the original image
 

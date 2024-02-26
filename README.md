@@ -1,18 +1,17 @@
-# Elaborato di Laboratorio di Programmazione
+# Kernel Image Processing
 
-### Kernel Image Processing
+Goals:
+- Template class that represents images with 1, 2, 3 and 4 channels;
+- Class that implements kernel image processing;
+- Reading and writing in PPM/PGM format.
 
-**Es. (4)** 
-- Classe template che rappresenta immagini a 1, 2, 3 e 4 canali.
-- Classe che implementa kernel image processing. (https://en.wikipedia.org/wiki/Kernel_(image_processing) - http://rosettacode.org/wiki/Image_convolution).
-- Lettura e scrittura in formato PPM/PGM. (https://en.wikipedia.org/wiki/Netpbm_format)
+---
+### REFERENCES
+- Wikipedia: [kernel image processing](https://en.wikipedia.org/wiki/Kernel_(image_processing)) and [Netbpm](https://en.wikipedia.org/wiki/Netpbm_format)
+- Rosetta code: [image convolution](http://rosettacode.org/wiki/Image_convolution)
 
 
-
-Altre fonti:
-- https://hinumduman.home.blog/2018/08/21/basic-operations-on-image-processing-using-pgm-file-formats/
-- https://www.cs.cornell.edu/courses/cs664/2003fa/images/project1/set1/
-- https://people.sc.fsu.edu/~jburkardt/data/pgmb/pgmb.html
-- https://people.sc.fsu.edu/~jburkardt/data/pgma/pgma.html
-- https://setosa.io/ev/image-kernels/
-
+Additional references:
+- Hinumduman blog: [basic operations in image processing](https://hinumduman.home.blog/2018/08/21/basic-operations-on-image-processing-using-pgm-file-formats/)
+- Setosa: [image Kernel explained visually](https://setosa.io/ev/image-kernels/)
+- John Burkardt: sample images in [ASCII PGM](https://people.sc.fsu.edu/~jburkardt/data/pgma/pgma.html) and [Binary PGM](https://people.sc.fsu.edu/~jburkardt/data/pgmb/pgmb.html) formats
