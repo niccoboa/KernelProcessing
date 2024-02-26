@@ -15,3 +15,15 @@ Additional references:
 - Hinumduman blog: [basic operations in image processing](https://hinumduman.home.blog/2018/08/21/basic-operations-on-image-processing-using-pgm-file-formats/)
 - Setosa: [image Kernel explained visually](https://setosa.io/ev/image-kernels/)
 - John Burkardt: sample images in [ASCII PGM](https://people.sc.fsu.edu/~jburkardt/data/pgma/pgma.html) and [Binary PGM](https://people.sc.fsu.edu/~jburkardt/data/pgmb/pgmb.html) formats
+
+---
+
+## TODO:
+- Unit testing
+- Add more image processing operations (e.g. edge detection, sharpening, etc.)
+- Exception handling
+- New structure for Kernels.h
+- A small GUI?
+- Skip comments in PPM/PGM files when reading
+- Save in binary format as well
+- When edge detection, fill the edges with white or black
