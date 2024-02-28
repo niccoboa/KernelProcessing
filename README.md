@@ -15,11 +15,12 @@ Additional references:
 - Hinumduman blog: [basic operations in image processing](https://hinumduman.home.blog/2018/08/21/basic-operations-on-image-processing-using-pgm-file-formats/)
 - Setosa: [image Kernel explained visually](https://setosa.io/ev/image-kernels/)
 - John Burkardt: sample images in [ASCII PGM](https://people.sc.fsu.edu/~jburkardt/data/pgma/pgma.html) and [Binary PGM](https://people.sc.fsu.edu/~jburkardt/data/pgmb/pgmb.html) formats
+- Grant Sanderson: [Convolution in Image Processing](https://www.youtube.com/watch?v=8rrHTtUzyZA)
 
 ---
 
 ## TODO:
-- **Unit testing**
+- More tests for **Unit testing**
 - Add more image processing operations (e.g. edge detection, sharpening, etc.)
 - New structure for Kernels.h
 - A small GUI?
