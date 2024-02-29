@@ -57,6 +57,7 @@ void ImageProcessor::load(ImageBase &image, const std::string &filepath) {
         image.setWidth(width);
         image.setHeight(height);
         image.setData(pixelData);
+        image.setMaxValue(maxValue);
         inputFile.close();
 
         auto end_time = std::chrono::steady_clock::now(); // loading end time
@@ -95,7 +96,8 @@ void ImageProcessor::saveImage(ImageBase &image, const std::string &filepath, co
 
         file << magic << std::endl;
         file << image.getWidth() << " " << image.getHeight() << std::endl;
-        file << "255" << std::endl;
+        file << image.getMaxValue() << std::endl;
+
 
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
@@ -116,6 +118,12 @@ void ImageProcessor::saveImage(ImageBase &image, const std::string &filepath, co
 }
 
 void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector<float>> &kernel) {
+
+    // Check if the kernel is empty or bigger than the image
+    if (kernel.empty() || kernel[0].empty()) {
+        throw std::runtime_error("Kernel is empty");
+    }
+
     int kw = static_cast<int>(kernel[0].size()); // kernel width
     int kh = static_cast<int>(kernel.size());    // kernel height
     int kwRadius = kw / 2; // kernel width radius
@@ -123,12 +131,13 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
 
     int w = image.getWidth(); // image width
     int h = image.getHeight(); // image height
+    auto max = static_cast<float>(image.getMaxValue()); // max pixel value (float to avoid further casts)
     int c = static_cast<int>(image.getChannels()); // number of channels
 
-    int max_threshold = 0; // counter for saturation (above 255) values
+    int max_threshold = 0; // counter for saturation (above 'max') values
     int min_threshold = 0; // counter for below zero values
 
-    ImageBase *result = image.clone(); // clone image
+    ImageBase *result = image.clone(); // clone the original image (be careful w/ memory leaks, delete it after use)
 
     auto start_time = std::chrono::steady_clock::now(); // kernel application start time
 
@@ -149,16 +158,17 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
                         }
                     }
                 }
-                // Adjust values to 0-255 if needed
-                if (sum > 255) {
-                    result->setPixel(x, y, ch, 255);
+
+                // EDGE HANDLING: if the sum is above max or below 0, set the value to max or 0
+                if (sum > max) { // above max
+                    result->setPixel(x, y, ch, max);
                     max_threshold++;
                 }
-                else if (sum <= 0) {
+                else if (sum <= 0) { // below 0
                     result->setPixel(x, y, ch, 0);
                     min_threshold++;
                 }
-                else { // ok, the value is in the range 0-255
+                else { // ok
                     result->setPixel(x, y, ch, static_cast<unsigned char>(sum));
                 }
             }
@@ -171,9 +181,9 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
 
     image.setData(result->getData()); // apply the result to the original image
 
-    delete result; // delete the clone
+    delete result; // deallocate the cloned image to avoid memory leaks
 
     std::cout << "2) Kernel (" << kw << "x" << kh << ") applied in " << duration.count()
               << "ms" << std::endl;
-    std::cout << "   Note: exceeded the saturation thresholds for " << max_threshold + min_threshold << " times (<0:" << max_threshold << " ; >255:" << min_threshold << ")" << std::endl;
+    std::cout << "   Note: exceeded the saturation thresholds for " << max_threshold + min_threshold << " times (<0:" << max_threshold << " ; >" << max << ":" << min_threshold << ")" << std::endl;
 }

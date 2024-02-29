@@ -12,21 +12,26 @@ class Image : public ImageBase {
 private:
     int height;
     int width;
-    std::vector<std::vector<unsigned char>> data;
+    int maxValue; // max pixel value of the image (e.g. 255 for 8-bit images)
+    std::vector<std::vector<unsigned char>> data; // image data (pixel values matrix)
 
 public:
     // Image(int w, int h) : width(w), height(h), data(h, std::vector<unsigned char>(w * static_cast<int>(C))) {}
-    Image() : width(0), height(0) {}
+    Image() : width(0), height(0), maxValue(0) {}
 
-    int getWidth() const override { return width; }
+    [[nodiscard]] int getWidth() const override { return width; }
 
-    int getHeight() const override { return height; }
+    [[nodiscard]] int getHeight() const override { return height; }
 
     void setWidth(int w) override { width = w; }
 
     void setHeight(int h) override { height = h; }
 
-    float getPixel(int x, int y, int c) const override {
+    [[nodiscard]] int getMaxValue() const override { return maxValue; }
+
+    void setMaxValue(int max) override { maxValue = max; }
+
+    [[nodiscard]] float getPixel(int x, int y, int c) const override {
         return data[y][x * static_cast<int>(C) + c];
     }
 
@@ -40,11 +45,11 @@ public:
         return data[y][x * static_cast<int>(C)];
     }
 
-    Channel getChannels() const override { return C; }
+    [[nodiscard]] Channel getChannels() const override { return C; }
 
     void setData(const std::vector<std::vector<unsigned char>> &newData) override { data = newData; }
 
-    const std::vector<std::vector<unsigned char>>& getData() const override {
+    [[nodiscard]] const std::vector<std::vector<unsigned char>>& getData() const override {
         return data;
     }
 

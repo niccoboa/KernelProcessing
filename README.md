@@ -15,15 +15,18 @@ Additional references:
 - Hinumduman blog: [basic operations in image processing](https://hinumduman.home.blog/2018/08/21/basic-operations-on-image-processing-using-pgm-file-formats/)
 - Setosa: [image Kernel explained visually](https://setosa.io/ev/image-kernels/)
 - John Burkardt: sample images in [ASCII PGM](https://people.sc.fsu.edu/~jburkardt/data/pgma/pgma.html) and [Binary PGM](https://people.sc.fsu.edu/~jburkardt/data/pgmb/pgmb.html) formats
+- Tennessee EECS website: [sample binary images](https://web.eecs.utk.edu/~hqi/ece472-572/testimage.htm)
 - Grant Sanderson: [Convolution in Image Processing](https://www.youtube.com/watch?v=8rrHTtUzyZA)
+- Stack Exchange: [Convolution  with a non-square kernel](https://dsp.stackexchange.com/questions/1489/convolution-with-a-non-square-kernel)
 
 ---
 
-## TODO:
-- More tests for **Unit testing**
-- Add more image processing operations (e.g. edge detection, sharpening, etc.)
-- New structure for Kernels.h
+## Improvements:
+- Add more image processing operations (new kernels)
+- More flexible kernels data structure
 - A small GUI?
 - Skip comments in PPM/PGM files when reading
 - Save in binary format as well
-- When edge detection, fill the edges with white or black
+- When edge detection in PPM, fill the edges with white or black to avoid colored edges
+
+

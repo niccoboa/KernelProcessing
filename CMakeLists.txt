@@ -13,7 +13,8 @@ add_executable(KernelProcessing src/main.cpp
         src/Channel.h
         src/ImageProcessor.h
         src/ImageProcessor.cpp
-        )
+        src/Kernel.cpp
+)
 
 # file(GLOB PGM_FILES "${CMAKE_BINARY_DIR}/media/*.pgm") # get all .pgm files
 # file(GLOB PPM_FILES "${CMAKE_BINARY_DIR}/media/*.ppm") # get all .ppm files

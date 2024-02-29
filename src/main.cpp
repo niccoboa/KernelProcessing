@@ -4,7 +4,7 @@
 int main() {
 
     Image<Channel::GRAY> image;
-    std::string outPath = "../media/output/";
+    std::string outPath = "../media/output/"; // set the output path
 
     try {
         ImageProcessor::load(image, "../media/input/monaLisa.pgm");

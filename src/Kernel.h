@@ -3,46 +3,15 @@
 
 #include <vector>
 
-const std::vector<std::vector<std::vector<float>>> blur = {
-        {
-                {1.0f / 9,  1.0f / 9,  1.0f / 9},
-                {1.0f / 9,  1.0f / 9,  1.0f / 9},
-                {1.0f / 9,  1.0f / 9,  1.0f / 9}
-        },
-        {
-                {1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25},
-                {1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25},
-                {1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25},
-                {1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25},
-                {1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25, 1.0f / 25}
-        }
-};
+// 'Default' kernels (as matrices)
+extern const std::vector<std::vector<float>> identity;
+extern const std::vector<std::vector<std::vector<float>>> blur;
+extern const std::vector<std::vector<std::vector<float>>> edgeDetect;
+extern const std::vector<std::vector<std::vector<float>>> sharpen;
+extern const std::vector<std::vector<std::vector<float>>> sobel;
 
-const std::vector<std::vector<std::vector<float>>> edgeDetect = {
-        {
-                {0, 1, 0},
-                {1, -4, 1},
-                {0, 1, 0}
-        },
-        {
-                {1, 1, 1},
-                {1, -8, 1},
-                {1, 1, 1}
-        }
-};
-
-const std::vector<std::vector<std::vector<float>>> sharpen = {
-        {
-                {0, -0.8, 0},
-                {-0.8, 3.2, -0.8},
-                {0, -0.8, 0}
-        },
-        {
-                {0, -1,   0},
-                {-1,   5,   -1},
-                {0, -1,   0}
-        }
-};
+// Custom kernels (created using functions)
+std::vector<std::vector<float>> customSquaredBlur(unsigned short int size); // create a blur kernel with a given size
 
 
 #endif //KERNELPROCESSING_KERNEL_H
