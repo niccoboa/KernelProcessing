@@ -31,8 +31,8 @@ void ImageProcessor::load(ImageBase &image, const std::string &filepath) {
         std::vector<std::vector<unsigned char>> pixelData(height,
                                                           std::vector<unsigned char>(width * static_cast<int>(c)));
         if (magicNumber == "P2" || magicNumber == "P3") { // if P2 o P3, read data as int
-            for (int y = 0; y < height; ++y) {
-                for (int x = 0; x < width * static_cast<int>(c); ++x) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width * static_cast<int>(c); x++) {
                     //inputFile >> pixelData[y][x];
                     int pixelValue;
                     inputFile >> pixelValue;
@@ -40,13 +40,12 @@ void ImageProcessor::load(ImageBase &image, const std::string &filepath) {
                 }
             }
         } else if (magicNumber == "P5" || magicNumber == "P6") { // if P5 o P6, read data as byte
-            for (int y = 0; y < height; ++y) {
-                for (int x = 0; x < width; ++x) {
-                    for (int ch = 1; ch <= static_cast<int>(c); ch++) {
-                        unsigned char value;
-                        inputFile.read(reinterpret_cast<char *>(&value), 1);
-                        // int channelIndex = (ch + 2) % 3; // Inverts channels order: BGR <-> RGB
-                        pixelData[y][x * static_cast<int>(c) + ch + 1] = value; // new version
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    for (int ch = 0; ch < static_cast<int>(c); ch++) {
+                        unsigned char byteValue;
+                        inputFile.read(reinterpret_cast<char *>(&byteValue), 1); // read one byte
+                        pixelData[y][x * static_cast<int>(c) + ch + 2] = byteValue; // careful with the channel offset
                     }
                 }
             }
@@ -152,9 +151,9 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
                         px = x + kx - kwRadius;
                         py = y + ky - khRadius;
                         if (px >= 0 && px < w && py >= 0 && py < h) { // if the pixel is inside the image
-                            sum += (image.getPixel(px, py, ch) * kernel[ky][kx]);
+                            sum += static_cast<float>(image.getPixel(px, py, ch)) * kernel[ky][kx];
                         } else { // if the pixel is outside the image set the value to the nearest pixel
-                            sum += (image.getPixel(x, y, ch) * kernel[ky][kx]);
+                            sum += static_cast<float>(image.getPixel(x, y, ch)) * kernel[ky][kx];
                         }
                     }
                 }

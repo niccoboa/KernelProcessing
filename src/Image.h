@@ -31,7 +31,7 @@ public:
 
     void setMaxValue(int max) override { maxValue = max; }
 
-    [[nodiscard]] float getPixel(int x, int y, int c) const override {
+    [[nodiscard]] int getPixel(int x, int y, int c) const override {
         return data[y][x * static_cast<int>(C) + c];
     }
 
