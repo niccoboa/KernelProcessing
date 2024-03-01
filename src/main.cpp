@@ -4,12 +4,11 @@
 int main() {
 
     Image<Channel::RGB> image;
-    std::string outPath = "../media/output/"; // set the output path
 
     try {
         ImageProcessor::load(image, "../media/input/lena.ppm");
-        ImageProcessor::applyKernel(image, edgeDetect[0]);
-        ImageProcessor::saveAs(image, outPath + "lena_edge-detect");
+        ImageProcessor::applyKernel(image, edgeDetect[1]);
+        ImageProcessor::saveAs(image, "../media/output/", "lena_edge-detect1");
 
     } catch (const std::exception &e) {
         std::cerr << "An error occurred." << std::endl;

@@ -73,12 +73,14 @@ void ImageProcessor::load(ImageBase &image, const std::string &filepath) {
     }
 }
 
-void ImageProcessor::saveAs(ImageBase &image, const std::string &filename) {
+void ImageProcessor::saveAs(ImageBase &image, const std::string &outPath, const std::string &filename) {
+    std::filesystem::create_directory(outPath); // create the output directory if it doesn't exist (C++17)
+    std::string filepath = outPath + filename; // set the output file path
 
     if (image.getChannels() == Channel::GRAY) {
-        return saveImage(image, filename + ".pgm", "P2");
+        return saveImage(image, filepath + ".pgm", "P2");
     } else if (image.getChannels() == Channel::RGB || image.getChannels() == Channel::RGBA) {
-        return saveImage(image, filename + ".ppm", "P3");
+        return saveImage(image, filepath + ".ppm", "P3");
     } else { //if (C == Channel::DUAL) {
         std::cerr << "Not supported channel type" << std::endl;
         throw;

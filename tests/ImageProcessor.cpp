@@ -16,7 +16,7 @@ TEST(ImageProcessor, saveAs_attributes) {
     ASSERT_EQ(image.getHeight(), 360);
     ASSERT_EQ(image.getChannels(), Channel::GRAY);
     ASSERT_EQ(image.getMaxValue(), 255);
-    ImageProcessor::saveAs(image, "../../media/output/monaLisa_test");
+    ImageProcessor::saveAs(image, "../../media/output/" , "monaLisa_test");
     Image<Channel::GRAY> savedImage;
     ImageProcessor::load(savedImage, "../../media/output/monaLisa_test.pgm");
     ASSERT_EQ(savedImage.getWidth(), 250);
@@ -56,7 +56,7 @@ TEST(ImageProcessor, applyKernel_kernels) {
     ImageProcessor::applyKernel(image, sobel[0]);
     ImageProcessor::applyKernel(image, sobel[1]);
 
-    ImageProcessor::saveAs(image, "../../media/output/monaLisa_mashup");
+    ImageProcessor::saveAs(image, "../../media/output/", "monaLisa_mashup");
 }
 
 // test identity kernel
@@ -64,7 +64,7 @@ TEST(ImageProcessor, applyKernel_identity) {
     Image<Channel::GRAY> image;
     ImageProcessor::load(image, "../../media/input/monaLisa.pgm");
     ImageProcessor::applyKernel(image, identity);
-    ImageProcessor::saveAs(image, "../../media/output/monaLisa_identity");
+    ImageProcessor::saveAs(image, "../../media/output/" , "monaLisa_identity");
 }
 
 // test blur kernel function
@@ -72,7 +72,7 @@ TEST(ImageProcessor, applyKernel_blur) {
     Image<Channel::GRAY> image;
     ImageProcessor::load(image, "../../media/input/monaLisa.pgm");
     ImageProcessor::applyKernel(image, customSquaredBlur(7)); // 7x7 blur
-    ImageProcessor::saveAs(image, "../../media/output/monaLisa_blurfunction");
+    ImageProcessor::saveAs(image, "../../media/output/", "monaLisa_blurfunction");
 }
 
 // test edge detection kernel for ppm image
@@ -80,5 +80,5 @@ TEST(ImageProcessor, applyKernel_edgeDetect) {
     Image<Channel::RGB> image;
     ImageProcessor::load(image, "../../media/input/lena.ppm");
     ImageProcessor::applyKernel(image, edgeDetect[1]);
-    ImageProcessor::saveAs(image, "../../media/output/lena_edgePPM");
+    ImageProcessor::saveAs(image, "../../media/output/", "lena_edgePPM");
 }
