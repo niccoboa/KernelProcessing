@@ -1,4 +1,4 @@
-#ifndef KERNELPROCESSING_IMAGEPROCESSOR_H
+/*#ifndef KERNELPROCESSING_IMAGEPROCESSOR_H
 #define KERNELPROCESSING_IMAGEPROCESSOR_H
 
 #include <iostream>
@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include "Image.h"
-#include "Channel.h"
 
 //template<Channel C>
 class ImageProcessor {
@@ -24,3 +23,5 @@ public:
 
 
 #endif //KERNELPROCESSING_IMAGEPROCESSOR_H
+
+*/

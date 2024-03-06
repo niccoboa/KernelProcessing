@@ -1,5 +1,4 @@
 #include "ImageProcessor.h"
-#include "Channel.h"
 #include "Image.h"
 #include <iostream>
 #include <fstream>
@@ -7,7 +6,7 @@
 #include <chrono>
 #include <filesystem> // C++17
 
-
+/*
 void ImageProcessor::load(ImageBase &image, const std::string &filepath) {
     //extract filename from path (C++17)
     std::string filename = std::filesystem::path(filepath).filename().string();
@@ -188,3 +187,4 @@ void ImageProcessor::applyKernel(ImageBase &image, const std::vector<std::vector
               << "ms" << std::endl;
     std::cout << "   Note: exceeded the saturation thresholds for " << max_threshold + min_threshold << " times (<0:" << max_threshold << " ; >" << max << ":" << min_threshold << ")" << std::endl;
 }
+*/

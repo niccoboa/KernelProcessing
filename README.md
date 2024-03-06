@@ -30,3 +30,13 @@ Additional references:
 - When edge detection in PPM, fill the edges with white or black to avoid colored edges
 
 
+# TODO (02/03)
+
+- Set the Working Directory (under Edit Configuration)
+- Template for image type (not for Channels)
+  - Channels as attribute in class Image
+  - Remove ImageBase
+- Remove ImageProcessor class
+  - Put Load and Save image methods in Image
+  - ApplyKernel as a Kernel's method. It'll pass the dimensions and weights of the matrix
+- Create a Factory Method for generating Kernel matrices

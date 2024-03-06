@@ -1,3 +1,7 @@
+// TODO: THIS WILL BE THE FACTORY CLASS FOR KERNELS. IT WILL BE USED TO CREATE KERNELS AND STORE THEM.
+// At the moment (march 7th), it only contains the default kernels as matrices.
+
+
 #ifndef KERNELPROCESSING_KERNEL_H
 #define KERNELPROCESSING_KERNEL_H
 
