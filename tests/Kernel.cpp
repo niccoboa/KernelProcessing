@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../src/Kernel.h"
+#include "../src/KernelProduct.h"
 
 // test that the sum of the blur kernel is 1
 TEST(Kernel, sumBlur) {

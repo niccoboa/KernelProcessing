@@ -8,7 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(KernelProcessing src/main.cpp
         src/Image.h
-        src/Kernel.h
+        src/KernelProduct.h
+        src/KernelCreator.h
 )
 
 # file(GLOB PGM_FILES "${CMAKE_BINARY_DIR}/media/*.pgm") # get all .pgm files

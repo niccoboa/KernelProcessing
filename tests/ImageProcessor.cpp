@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "../src/ImageProcessor.h"
-#include "../src/Kernel.h"
+#include "../src/KernelProduct.h"
 
 // exception is thrown when the file is not found
 TEST(ImageProcessor, load_exception) {

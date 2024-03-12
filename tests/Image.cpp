@@ -29,12 +29,12 @@ TEST(ImageTest, testPixel) {
     ASSERT_EQ(image.getPixel(0, 1, 0), 4);
     ASSERT_EQ(image.getPixel(0, 1, 1), 5);
     ASSERT_EQ(image.getPixel(0, 1, 2), 6);
-    image.setPixel(0, 0, 0, 10);
-    image.setPixel(0, 0, 1, 20);
-    image.setPixel(0, 0, 2, 30);
-    image.setPixel(0, 1, 0, 40);
-    image.setPixel(0, 1, 1, 50);
-    image.setPixel(0, 1, 2, 60);
+    image.setPixel(0, 0, 0);
+    image.setPixel(0, 0, 1);
+    image.setPixel(0, 0, 2);
+    image.setPixel(1, 0, 0);
+    image.setPixel(1, 0, 1);
+    image.setPixel(1, 0, 2);
     ASSERT_EQ(image.getPixel(0, 0, 0), 10);
     ASSERT_EQ(image.getPixel(0, 0, 1), 20);
     ASSERT_EQ(image.getPixel(0, 0, 2), 30);

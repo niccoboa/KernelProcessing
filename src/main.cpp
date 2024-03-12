@@ -1,12 +1,18 @@
 #include "Image.h"
-#include "Kernel.h"
+#include "KernelCreator.h"
 
+using ImageType = int;
 int main() {
 
     try {
-        Image<int> image(3);
+        Image<ImageType> image(3);
         image.load("media/input/lena.ppm");
-        image.saveImage("media/output/lenacoloredcharint");
+
+        KernelCreator<ImageType> factory;
+        std::unique_ptr<KernelProduct<ImageType>> kernel = factory.createKernel("edge");
+        kernel->applyKernel(image);
+
+        image.saveImage("media/output/lena-blur");
 
     } catch (const std::exception &e) {
         std::cerr << "An error occurred." << std::endl;

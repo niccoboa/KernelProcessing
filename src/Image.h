@@ -33,15 +33,15 @@ public:
     [[nodiscard]] int getMaxValue() const { return maxValue; }
     [[nodiscard]] int getChannels() const { return channels; }
     [[nodiscard]] const std::vector<std::vector<T>>& getData() const { return data; }
-    T getPixel(T x, T y, int c) { return data[y][x * getChannels() + c]; }
+    T getPixel(T x, T y, int c) const { return data[y][x * getChannels() + c]; }
 
     // Setters
     void setWidth(int w) { width = w; }
     void setHeight(int h) { height = h; }
     void setMaxValue(int mv) { maxValue = mv; }
-    void setChannels(int c) { channels = c; }
+    // void setChannels(int c) { channels = c; }
     void setData(const std::vector<std::vector<T>> &d) { data = d; }
-    void setPixel(int x, int y, T value) { data[y][x] = value; }
+    void setPixel(int y, int x, T value) { data[y][x] = value; }
 
     // Methods
     void load(const std::string &filepath);
@@ -50,8 +50,8 @@ public:
 private:
     // Helper methods
     void printLoadingInfo(const std::string &filepath);
-
 };
+
 
 // Implementation
 template <typename T>
@@ -81,7 +81,7 @@ void Image<T>::load(const std::string &filepath) {
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth() * getChannels(); x++) { // channels, remember to change this
                 inputFile >> value;
-                setPixel(x, y, value);
+                setPixel(y, x, value);
             }
         }
     } else if (magicNumber == "P5" || magicNumber == "P6") { // if P5 o P6, read data as byte
@@ -89,13 +89,21 @@ void Image<T>::load(const std::string &filepath) {
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth() * getChannels(); x++) {
                 inputFile.read(reinterpret_cast<char *>(&byteValue), 1); // read one byte
-                // data[y][x] = static_cast<T>(byteValue);
-                setPixel(x, y, static_cast<T>(byteValue));
+                setPixel(y, x, static_cast<T>(byteValue));
             }
         }
     } else {
         throw std::runtime_error("Error while reading the file");
     }
+
+    /* T value; // pixel value
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth() * getChannels(); x++) { // channels, remember to change this
+            readPixelData(inputFile, value);
+            setPixel(x, y, value);
+        }
+    }*/
+
 
     inputFile.close();
     printLoadingInfo(filepath);
@@ -156,6 +164,7 @@ void Image<T>::saveImage(const std::string &filepath) {
     std::cout << "3) Image saved in " << filepath << std::endl;
 
 }
+
 
 #endif //KERNELPROCESSING_IMAGE_H
 
