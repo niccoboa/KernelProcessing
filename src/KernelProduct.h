@@ -44,8 +44,11 @@ void KernelProduct<T>::applyKernel(Image<T> &image) {
                         int px = x + kx - kernelRadius;
                         int py = y + ky - kernelRadius;
 
+                        // if the pixel is within the image boundaries, apply the kernel
                         if (px >= 0 && px < imageWidth && py >= 0 && py < imageHeight) {
                             sum += image.getPixel(px, py, c) * getKernelPixel(ky, kx);
+                        } else {  // else, set pixel to the nearest boundary pixel
+                            sum += image.getPixel(x, y, c) * getKernelPixel(ky, kx);
                         }
                     }
                 }
@@ -61,6 +64,8 @@ void KernelProduct<T>::applyKernel(Image<T> &image) {
         }
     }
     image.setData(newImage.getData());
+
+    std::cout << "2) Kernel applied to the image" << std::endl;
 }
 
 #endif //KERNELPROCESSING_KERNELPRODUCT_H

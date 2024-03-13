@@ -12,6 +12,7 @@ add_executable(KernelProcessing src/main.cpp
         src/KernelCreator.h
         src/BlurCreator.h
         src/EdgeCreator.h
+        src/SharpenCreator.h
 )
 
 # file(GLOB PGM_FILES "${CMAKE_BINARY_DIR}/media/*.pgm") # get all .pgm files

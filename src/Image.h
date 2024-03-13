@@ -39,17 +39,13 @@ public:
     void setWidth(int w) { width = w; }
     void setHeight(int h) { height = h; }
     void setMaxValue(int mv) { maxValue = mv; }
-    // void setChannels(int c) { channels = c; }
     void setData(const std::vector<std::vector<T>> &d) { data = d; }
     void setPixel(int y, int x, T value) { data[y][x] = value; }
 
-    // Methods
+    // Methods (operations)
     void load(const std::string &filepath);
     void saveImage(const std::string &filepath);
 
-private:
-    // Helper methods
-    void printLoadingInfo(const std::string &filepath);
 };
 
 
@@ -92,19 +88,11 @@ void Image<T>::load(const std::string &filepath) {
                 setPixel(y, x, static_cast<T>(byteValue));
             }
         }
-    } else {
-        throw std::runtime_error("Error while reading the file");
     }
 
     inputFile.close();
-    printLoadingInfo(filepath);
-}
 
-template <typename T>
-void Image<T>::printLoadingInfo(const std::string &filepath) {
-    std::string filename = std::filesystem::path(filepath).filename().string();
-    std::cout << "1) Image " << filename << " loaded (dimensions: " << width << "x" << height << ", channels used: " << channels << ")"
-              << std::endl;
+    std::cout << "1) Image " << std::filesystem::path(filepath).filename().string() << " loaded" << std::endl;
 }
 
 template<typename T>

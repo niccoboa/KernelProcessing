@@ -15,6 +15,7 @@ template<typename T>
 class KernelCreator {
 public:
     KernelCreator() = default;
+
     virtual std::unique_ptr<KernelProduct<T>> createKernel(int size) = 0;
     virtual ~KernelCreator() = default;
 };
