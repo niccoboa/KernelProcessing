@@ -13,6 +13,7 @@ class KernelProduct {
 private:
     std::vector<std::vector<float>> data;
 public:
+    KernelProduct() = default;
     explicit KernelProduct(const std::vector<std::vector<float>> &d) : data(d) {}
     void applyKernel(Image<T> &image);
 

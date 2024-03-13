@@ -1,5 +1,7 @@
 #include "Image.h"
 #include "KernelCreator.h"
+#include "BlurCreator.h"
+#include "EdgeCreator.h"
 
 using ImageType = int;
 int main() {
@@ -8,8 +10,8 @@ int main() {
         Image<ImageType> image(3);
         image.load("media/input/lena.ppm");
 
-        KernelCreator<ImageType> factory;
-        std::unique_ptr<KernelProduct<ImageType>> kernel = factory.createKernel("edge");
+        BlurCreator<ImageType> factory;
+        std::unique_ptr<KernelProduct<ImageType>> kernel = factory.createKernel(7);
         kernel->applyKernel(image);
 
         image.saveImage("media/output/lena-blur");

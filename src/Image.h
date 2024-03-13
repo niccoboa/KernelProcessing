@@ -96,15 +96,6 @@ void Image<T>::load(const std::string &filepath) {
         throw std::runtime_error("Error while reading the file");
     }
 
-    /* T value; // pixel value
-    for (int y = 0; y < getHeight(); y++) {
-        for (int x = 0; x < getWidth() * getChannels(); x++) { // channels, remember to change this
-            readPixelData(inputFile, value);
-            setPixel(x, y, value);
-        }
-    }*/
-
-
     inputFile.close();
     printLoadingInfo(filepath);
 }
