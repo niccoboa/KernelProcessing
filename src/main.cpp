@@ -3,18 +3,18 @@
 #include "BlurCreator.h"
 #include "EdgeCreator.h"
 
-using ImageType = int;
+using ImageType = int; // define image type (e.g. int, float, double) to use
 int main() {
 
     try {
-        Image<ImageType> image(3);
-        image.load("media/input/lena.ppm");
+        Image<ImageType> image(3); // create image with c channels
+        image.load("media/input/lena.ppm"); // load image
 
-        BlurCreator<ImageType> factory;
-        std::unique_ptr<KernelProduct<ImageType>> kernel = factory.createKernel(7);
-        kernel->applyKernel(image);
+        BlurCreator<ImageType> factory; // Concrete Creator
+        std::unique_ptr<KernelProduct<ImageType>> kernel = factory.createKernel(7); // Concrete Product
+        kernel->applyKernel(image); // apply kernel to image
 
-        image.saveImage("media/output/lena-blur");
+        image.saveImage("media/output/lena-blur"); // save image
 
     } catch (const std::exception &e) {
         std::cerr << "An error occurred." << std::endl;

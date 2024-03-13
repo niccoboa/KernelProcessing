@@ -19,6 +19,8 @@ public:
 
     [[nodiscard]] const std::vector<std::vector<float>>& getData() const { return data; }
     [[nodiscard]] float getKernelPixel(int y, int x) const { return data[y][x]; }
+
+    [[nodiscard]] const std::vector<std::vector<float>>& getKernel() const { return data; }
 };
 
 template<typename T>
