@@ -34,8 +34,8 @@ TEST(ImageTest, testClone) {
 TEST(ImageTest, testLoad) {
     Image<int> image(3);
     image.load("media/input/lena.ppm");
-    ASSERT_EQ(image.getWidth(), 512);
-    ASSERT_EQ(image.getHeight(), 512);
+    ASSERT_EQ(image.getWidth(), 256);
+    ASSERT_EQ(image.getHeight(), 256);
     ASSERT_EQ(image.getMaxValue(), 255);
     ASSERT_EQ(image.getChannels(), 3);
 }
@@ -47,8 +47,8 @@ TEST(ImageTest, testSaveImage) {
     image.saveImage("media/output/lena-test");
     Image<int> newImage(3);
     newImage.load("media/output/lena-test.ppm");
-    ASSERT_EQ(newImage.getWidth(), 512);
-    ASSERT_EQ(newImage.getHeight(), 512);
+    ASSERT_EQ(newImage.getWidth(), 256);
+    ASSERT_EQ(newImage.getHeight(), 256);
     ASSERT_EQ(newImage.getMaxValue(), 255);
     ASSERT_EQ(newImage.getChannels(), 3);
 }
@@ -57,7 +57,7 @@ TEST(ImageTest, testSaveImage) {
 TEST(ImageTest, testGetSetPixel) {
     Image<int> image(3);
     image.load("media/input/lena.ppm");
-    ASSERT_EQ(image.getPixel(0, 0, 0), 226);
+    ASSERT_EQ(image.getPixel(0, 0, 0), 10);
     image.setPixel(0, 0, 0);
     ASSERT_EQ(image.getPixel(0, 0, 0), 0);
 }

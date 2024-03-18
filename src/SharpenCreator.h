@@ -4,11 +4,6 @@
 
 #ifndef KERNELPROCESSING_SHARPENCREATOR_H
 #define KERNELPROCESSING_SHARPENCREATOR_H
-
-//
-// CONCRETE CREATOR
-//
-
 #include "KernelCreator.h"
 
 template<typename T>
