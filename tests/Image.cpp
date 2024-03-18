@@ -53,11 +53,18 @@ TEST(ImageTest, testSaveImage) {
     ASSERT_EQ(newImage.getChannels(), 3);
 }
 
-// test getPixel and setPixel methods
-TEST(ImageTest, testGetSetPixel) {
-    Image<int> image(3);
-    image.load("media/input/lena.ppm");
-    ASSERT_EQ(image.getPixel(0, 0, 0), 10);
+// test getPixel method
+TEST(ImageTest, testGetPixel) {
+    Image<int> image(1);
+    image.load("media/input/dragon.pgm");
+    ASSERT_EQ(image.getPixel(0, 0, 0), 255);
+
+}
+
+// test setPixel method
+TEST(ImageTest, testSetPixel) {
+    Image<int> image(1);
+    image.load("media/input/dragon.pgm");
     image.setPixel(0, 0, 0);
     ASSERT_EQ(image.getPixel(0, 0, 0), 0);
 }

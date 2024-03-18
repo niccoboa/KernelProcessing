@@ -65,7 +65,7 @@ void KernelProduct<T>::applyKernel(Image<T> &image) {
     }
     image.setData(newImage.getData());
 
-    std::cout << "2) Kernel applied to the image" << std::endl;
+    // std::cout << "2) Kernel applied to the image" << std::endl;
 }
 
 #endif //KERNELPROCESSING_KERNELPRODUCT_H

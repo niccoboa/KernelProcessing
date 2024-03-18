@@ -13,7 +13,7 @@ public:
         std::vector<std::vector<float>> kernel(size, std::vector<float>(size));
 
         int kernelCenter = size / 2;
-        std::cout << "Kernel center: " << kernelCenter << std::endl;
+
         // sharpen kernel: size/2 in center and -1 in the central vertical and horizontal lines
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {

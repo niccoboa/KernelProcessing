@@ -92,7 +92,7 @@ void Image<T>::load(const std::string &filepath) {
 
     inputFile.close();
 
-    std::cout << "1) Image " << std::filesystem::path(filepath).filename().string() << " loaded" << std::endl;
+    // std::cout << "1) Image " << std::filesystem::path(filepath).filename().string() << " loaded" << std::endl;
 }
 
 template<typename T>
@@ -140,7 +140,7 @@ void Image<T>::saveImage(const std::string &filepath) {
         throw;
     }
 
-    std::cout << "3) Image saved in " << filepath << std::endl;
+    // std::cout << "3) Image saved in " << filepath << std::endl;
 
 }
 
